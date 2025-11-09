@@ -8,5 +8,5 @@ rule FileOpenModify{
         $mkdir = "mkdir"
         $fopen = "fopen"
     condition:
-        one of them
+        any of them
 }

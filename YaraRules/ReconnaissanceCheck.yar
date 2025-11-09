@@ -9,5 +9,5 @@ rule ReconnaissanceCheck {
         $shadowaccess = "/ect/shadow"
         $processdiscovery = "ps aux"
     condition:
-        one of them
+        any of them
 }
