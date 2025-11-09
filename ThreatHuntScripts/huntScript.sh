@@ -25,7 +25,7 @@ do
         echo "Remove users with 'sudo userdel -r [username]'"
         echo "Enter a user to show more information. Enter '0' to exit."
         read userMenu
-        while [["$userMenu" != "0"]]; then
+        while [["$userMenu" != "0"]]:
             groups "$userMenu"
             cat /etc/passwd | grep "$userMenu"
             sudo -l -U "$userMenu"
@@ -36,7 +36,7 @@ do
         echo "Remove groups with 'sudo groupdel [groupname]'"
         echo "Enter a group name to display members. Enter '0' to exit"
         read groupMenu
-        while [["$groupMenu" != "0"]]; then
+        while [["$groupMenu" != "0"]]; 
             getent "$groupMenu"
     elif [["$menuInput" == "3"]]; then
         echo "Lising all active network connections:"
