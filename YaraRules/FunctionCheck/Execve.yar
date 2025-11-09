@@ -4,7 +4,7 @@ rule ExecuteProgram{
         author = "Elizabeth Chadbourne"
         date = "2025-11-08"
     strings:
-        $Execute = "execve("
+        $Execute = "execve"
     condition:
         $Execute
 }

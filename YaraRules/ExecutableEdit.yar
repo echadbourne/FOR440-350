@@ -4,7 +4,7 @@ rule ExecutableEdit {
         author = "Elizabeth Chadbourne"
         date = "2025-11-08"
     strings:
-        $chmod = "chmod("
+        $chmod = "chmod"
         $executable = "0755"
     condition:
         all of them

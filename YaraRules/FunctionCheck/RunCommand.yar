@@ -4,7 +4,7 @@ rule RunCommand {
         author = "Elizabeth Chadbourne"
         date = "2025-11-08"
     strings:
-        $System = "system("
+        $System = "system"
     condition:
         $System
 }

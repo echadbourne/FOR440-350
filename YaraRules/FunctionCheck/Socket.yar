@@ -4,7 +4,7 @@ rule NetworkSocket {
         author = "Elizabeth Chadbourne"
         date = "2025-11-08"
     strings:
-        $Socket = "socket("
+        $Socket = "socket"
     condition:
         $Socket
 }
