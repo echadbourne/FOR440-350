@@ -30,6 +30,7 @@ do
             cat /etc/passwd | grep "$userMenu"
             sudo -l -U "$userMenu"
             ps aux | grep "$userMenu"
+        done
     elif [["$menuInput" == "2"]]; then
         echo "Listing all groups:"
         cut -d: -f1 /etc/group
@@ -38,6 +39,7 @@ do
         read groupMenu
         while [["$groupMenu" != "0"]]; 
             getent "$groupMenu"
+        done
     elif [["$menuInput" == "3"]]; then
         echo "Lising all active network connections:"
         sudo ss -tulnp
