@@ -10,10 +10,12 @@ do
     echo "5. List Services"
     echo "6. List Scheduled Jobs"
     echo "7. Investigate File Permissions"
+    echo "8. Check Bash History"
+    echo "9. List contents of common suspicious file locations"
     echo "0. Exit Program"
 
     read menuInput
-    echo "Number is $menuInput"
+    echo "You selected $menuInput"
     echo ""
     if [[ "$menuInput" == "0" ]]; then
         echo "Exiting Program..."
@@ -100,19 +102,21 @@ do
         echo "Enter a service to investigate, enter '0' to exit"
         read serviceMenu
         while [[ "$serviceMenu" != "0" ]]; do
+            echo "==Status=="
             systemctl status $serviceMenu
+            echo "==Content=="
             systemctl cat $serviceMenu
+            echo "==Dependencies=="
+            systemctl list-dependencies $serviceMenu
             echo "Enter a service to investigate, enter '0' to exit"
             read serviceMenu
             done
     elif [[ "$menuInput" == "6" ]]; then
-        echo "Listing root's scheduled jobs:"
-        sudo crontab -l
-        echo ""
         echo "Listing all user crontabs:"
         for user in $(cut -f1 -d: /etc/passwd); do
-            echo "=== Crontab for $user ==="
+            echo "==Crontab for $user=="
             sudo crontab -u $user -l 2>/dev/null
+            echo ""
         done
     elif [[ "$menuInput" == "7" ]]; then
         echo "Listing file permissions of the /tmp directory"
@@ -120,6 +124,9 @@ do
         echo ""
         echo "Listing file permissions of the /opt directory"
         ls -la /opt
+        echo "Listing files with 777 permissions"
+        sudo find / -type f -perm 0777 2>/dev/null
+        echo ""
         echo "==Listing SUID files=="
         find / -perm -4000 -type f 2>/dev/null
         echo ""
@@ -128,6 +135,38 @@ do
         echo ""
         #echo "Listing both SUID and SGID Files:"
         #find / -perm /6000 -type f 2>/dev/null
+    elif [[ "$menuInput" == "8" ]]; then
+        echo "==History for root=="
+        sudo cat /root/.bash_history
+        echo ""
+        for user_home in /home/*; do
+            echo "==History for $(basename $user_home)=="
+            cat "$user_home/.bash_history"
+            echo ""
+        done
+    elif [[ "$menuInput" == "9" ]]; then
+        echo "==Contents of /tmp=="
+        ls -la /tmp
+        echo ""
+        echo "==Contents of /var/tmp=="
+        ls -la /var/tmp
+        echo ""
+        echo "==Contents of /opt=="
+        ls -la /opt
+        echo ""
+        echo "==Contents of /dev/shm=="
+        ls -la /dev/shm
+        echo ""
+        echo "Please enter a user you would like to view the contents of the /home directory for, or exit with '0'"
+        read contentMenu
+        while [[ "$contentMenu" != "0" ]]; do
+            echo "==Contents of /home/$contentMenu=="
+            ls -la /home/$contentMenu
+            echo ""
+            echo "Please enter a user you would like to view the contents of the /home directory for, or exit with '0'"
+            read contentMenu
+        done
+
     else
         echo "Please select a valid option"
     fi
